@@ -17,6 +17,11 @@ const productSchema = new mongoose.Schema(
         trackingNumber: {
             type: String,
             unique: true
+        },
+        userId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+            required: true
         }
     });
 
