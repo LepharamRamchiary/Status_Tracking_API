@@ -1,18 +1,24 @@
 const Product = require('../models/product');
+const { sendEmail } = require('../utils/emailService');
 
 exports.createProduct = async (req, res) => {
-    const { name, description, price } = req.body;
+    const { name, description, price, userId } = req.body;
     const trackingNumber = `TRACK${Date.now()}`;
 
     try {
-        const product = new Product({ name, description, price, trackingNumber });
+        const product = new Product({ name, description, price, trackingNumber, userId });
         await product.save();
+
+        // Send notification email
+        // sendEmail(product._id, 'created');
+
         res.status(201).json({ productId: product._id, trackingNumber, message: 'Product created successfully' });
     } catch (err) {
-        res.status(500).json({ error: 'Error creating product' });
+        console.error('Error creating product:', err);  // Log the error for debugging
+        res.status(500).json({ error: `Error creating product: ${err.message}` });
     }
 };
-
+ 
 exports.getAllProducts = async (req, res) => {
     try {
         const products = await Product.find();
