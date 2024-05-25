@@ -3,13 +3,13 @@ const Product = require('../models/product');
 const { sendEmail } = require('../utils/emailService');
 
 exports.createTrackingEvent = async (req, res) => {
-    const { productId, status, location, timestamp } = req.body;
+    const { productId, status, location } = req.body;
 
     try {
         const product = await Product.findById(productId);
         if (!product) return res.status(404).json({ error: 'Product not found' });
 
-        const event = new TrackingEvent({ productId, status, location, timestamp: timestamp || Date.now() });
+        const event = new TrackingEvent({ productId, status, location });
         await event.save();
 
         // Send notification email
