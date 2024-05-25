@@ -13,7 +13,7 @@ exports.createTrackingEvent = async (req, res) => {
         await event.save();
 
         // Send notification email
-        sendEmail(productId, status);
+        sendEmail(product._id, status);
 
         res.status(201).json({ eventId: event._id, message: 'Tracking event created successfully' });
     } catch (err) {
