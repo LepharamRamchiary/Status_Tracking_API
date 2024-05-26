@@ -1,6 +1,7 @@
 const Product = require('../models/product');
 const { sendEmail } = require('../utils/emailService');
 
+
 exports.createProduct = async (req, res) => {
     const { name, description, price, userId } = req.body;
     const trackingNumber = `TRACK${Date.now()}`;
@@ -9,8 +10,9 @@ exports.createProduct = async (req, res) => {
         const product = new Product({ name, description, price, trackingNumber, userId });
         await product.save();
 
-        // Send notification email
-        // sendEmail(product._id, 'created');
+        // Optionally, send notification email if necessary
+        // const user = await User.findById(userId);
+        // await sendEmail(user, product, 'created');
 
         res.status(201).json({ productId: product._id, trackingNumber, message: 'Product created successfully' });
     } catch (err) {
