@@ -15,6 +15,10 @@ const transporter = nodemailer.createTransport({
 
 exports.sendEmail = async (user, product, status) => {
     try {
+        if (!user || !user.email) {
+            throw new Error('Invalid user object or missing email property');
+        }
+        
         const mailOptions = {
             from: EMAIL,
             to: user.email,
