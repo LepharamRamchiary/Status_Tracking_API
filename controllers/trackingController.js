@@ -1,19 +1,23 @@
 const TrackingEvent = require('../models/trackingEvent');
 const Product = require('../models/product');
+const User = require('../models/user');
 const { sendEmail } = require('../utils/emailService');
+
 
 exports.createTrackingEvent = async (req, res) => {
     const { productId, status, location } = req.body;
 
     try {
-        const product = await Product.findById(productId);
+        const product = await Product.findById(productId).populate('userId');
         if (!product) return res.status(404).json({ error: 'Product not found' });
 
         const event = new TrackingEvent({ productId, status, location });
         await event.save();
 
+        const user = product.userId; // Ensure this is populated correctly
+
         // Send notification email
-        sendEmail(product._id, status);
+        await sendEmail(user, product, status);
 
         res.status(201).json({ eventId: event._id, message: 'Tracking event created successfully' });
     } catch (err) {
