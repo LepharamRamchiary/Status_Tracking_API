@@ -8,6 +8,10 @@
     ```
       cd Status_Tracking_API
       npm install
+      or
+      npm install bcryptjs body-parser dotenv express jsonwebtoken mongoose nodemailer
+      and nodemon for devDependencies
+      npm install nodemon -D
     ```
 3. Set up `.env` file:
     ```
@@ -21,7 +25,7 @@
     ```
       node -e "console.log(require('crypto').randomBytes(64).toString('hex'));"
     ```
-5. For `email` and `password`
+5. For `email` and `password` (smtp)
     ```
       I enable two-step verification for my Google account. Then, I access the app password settings to generate one, creating a new email address and password.
     ```
@@ -37,4 +41,7 @@
      npm dev
      or
      npm run dev
+   ```
+7. Postman Docs:
+   ```
    ```
